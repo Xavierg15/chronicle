@@ -9,7 +9,8 @@ export const Entry = ({ session }) => {
 
   useEffect(() => {
     const checkEntry = async () => {
-      const today = new Date().toISOString().split('T')[0]
+      const now = new Date()
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
       const { data } = await supabase
         .from('entries')
         .select('*')
@@ -26,7 +27,8 @@ export const Entry = ({ session }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const today = new Date().toISOString().split('T')[0]
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
     const { data: existing } = await supabase
       .from('entries')
       .select('*')

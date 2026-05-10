@@ -8,7 +8,8 @@ export const Feed = ({ session }) => {
 
   useEffect(() => {
     const checkAndFetch = async () => {
-      const today = new Date().toISOString().split('T')[0]
+        const now = new Date()
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
 
       // Step 1: check if current user posted today
       const { data: myEntry } = await supabase
