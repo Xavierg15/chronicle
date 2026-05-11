@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { btnMotion } from './buttonMotion'
 import supabase from './supabase'
 
 export const Journal = ({ session }) => {
@@ -25,13 +26,16 @@ export const Journal = ({ session }) => {
     <div>
       <button
         onClick={() => setSelectedEntry(null)}
-        className="text-muted text-xs tracking-widest uppercase mb-8 hover:text-primary"
+        className={`text-muted text-xs tracking-widest uppercase mb-8 hover:text-primary ${btnMotion}`}
       >
         ← Back
       </button>
       <p className="text-muted text-xs tracking-widest uppercase mb-6">
         {new Date(selectedEntry.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
       </p>
+      {selectedEntry.is_public === false && (
+        <p className="text-muted text-xs tracking-widest uppercase mb-4">Private entry</p>
+      )}
       <h1 className="text-3xl font-bold text-primary mb-6 tracking-wide">{selectedEntry.title}</h1>
       <p className="text-primary leading-relaxed text-lg">{selectedEntry.content}</p>
     </div>
@@ -51,12 +55,15 @@ export const Journal = ({ session }) => {
           <button
             key={entry.id}
             onClick={() => setSelectedEntry(entry)}
-            className="flex items-baseline justify-between py-4 border-b border-border hover:text-accent text-left group"
+            className={`flex items-baseline justify-between py-4 border-b border-border hover:text-accent text-left group ${btnMotion}`}
           >
             <span className="text-primary group-hover:text-accent font-bold tracking-wide">
               {entry.title}
             </span>
-            <span className="text-muted text-xs tracking-widest uppercase ml-4 shrink-0">
+            <span className="text-muted text-xs tracking-widest uppercase ml-4 shrink-0 text-right">
+              {entry.is_public === false && (
+                <span className="block text-[10px] tracking-widest text-muted mb-1">private</span>
+              )}
               {new Date(entry.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
           </button>

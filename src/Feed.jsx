@@ -3,6 +3,7 @@ import supabase from './supabase'
 
 export const Feed = ({ session }) => {
   const [hasPosted, setHasPosted] = useState(false)
+  const [followCount, setFollowCount] = useState(0)
   const [entries, setEntries] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -28,18 +29,20 @@ export const Feed = ({ session }) => {
           .eq('follower_id', session.user.id)
 
         const followingIds = (followData || []).map((f) => f.following_id)
+        setFollowCount(followingIds.length)
 
         if (followingIds.length === 0) {
           setIsLoading(false)
           return
         }
 
-        // Step 3: fetch entries from followed users
+        // Step 3: fetch shared (public) entries from followed users only
         const { data: feedEntries } = await supabase
           .from('entries')
           .select('*')
           .gte('created_at', today)
           .in('user_id', followingIds)
+          .eq('is_public', true)
 
         // Step 4: fetch username for each entry
         const entriesWithUsernames = await Promise.all(
@@ -67,7 +70,16 @@ export const Feed = ({ session }) => {
 
   if (!hasPosted) return <p>Post your entry first to see the feed.</p>
 
-  if (entries.length === 0) return <p>Follow others to see their entries.</p>
+  if (entries.length === 0) {
+    if (followCount === 0) {
+      return <p className="text-muted tracking-wide">Follow others to see their entries.</p>
+    }
+    return (
+      <p className="text-muted tracking-wide">
+        No shared entries today. Private posts stay in someone&apos;s journal only.
+      </p>
+    )
+  }
 
   return (
     <div>

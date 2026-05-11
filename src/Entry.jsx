@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
+import { btnMotion } from './buttonMotion'
 import supabase from './supabase'
 
 export const Entry = ({ session }) => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [isPublic, setIsPublic] = useState(true)
   const [hasPosted, setHasPosted] = useState(false)
   const [todayEntry, setTodayEntry] = useState(null)
 
@@ -44,18 +46,24 @@ export const Entry = ({ session }) => {
       return
     }
 
-    const { error } = await supabase.from('entries').insert({
-      title,
-      content,
-      user_id: session.user.id
-    })
+    const { data, error } = await supabase
+      .from('entries')
+      .insert({
+        title,
+        content,
+        user_id: session.user.id,
+        is_public: isPublic,
+      })
+      .select()
+      .single()
 
     if (error) alert(error.message)
     else {
       setHasPosted(true)
-      setTodayEntry({ title, content, created_at: new Date() })
+      setTodayEntry(data)
       setTitle('')
       setContent('')
+      setIsPublic(true)
     }
   }
 
@@ -64,6 +72,9 @@ export const Entry = ({ session }) => {
       <p className="text-muted text-xs tracking-widest uppercase mb-6">
         {new Date(todayEntry.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
       </p>
+      {todayEntry.is_public === false && (
+        <p className="text-muted text-xs tracking-widest uppercase mb-4">Private · not on the feed</p>
+      )}
       <h1 className="text-3xl font-bold text-primary mb-4 tracking-wide">{todayEntry.title}</h1>
       <p className="text-primary leading-relaxed text-lg">{todayEntry.content}</p>
     </div>
@@ -93,12 +104,34 @@ export const Entry = ({ session }) => {
           {wordCount} / 250
         </p>
         <button
+          type="button"
+          onClick={() => setIsPublic((prev) => !prev)}
+          aria-pressed={isPublic}
+          className="flex max-w-md items-start gap-3 text-left"
+        >
+          <span
+            aria-hidden
+            style={{
+              background: isPublic ? '#8b7355' : '#1a1814',
+              borderColor: isPublic ? '#8b7355' : '#3d3830',
+            }}
+            className="mt-0.5 inline-block h-[14px] w-[14px] shrink-0 border transition-colors duration-200"
+          />
+          <span
+            className={`text-xs tracking-widest uppercase leading-relaxed transition-colors ${
+              isPublic ? 'text-primary' : 'text-muted'
+            }`}
+          >
+            Share on followers&apos; feed after you post
+          </span>
+        </button>
+        <button
           type="submit"
           disabled={wordCount > 250}
-          className={`self-start text-xs tracking-widest uppercase border px-6 py-2 transition-colors ${
+          className={`self-start text-xs tracking-widest uppercase border px-6 py-2 ${
             wordCount > 250
               ? 'text-muted border-border cursor-not-allowed'
-              : 'text-accent border-accent hover:bg-accent hover:text-background'
+              : `text-accent border-accent hover:bg-accent hover:text-background ${btnMotion}`
           }`}
         >
           Publish Entry

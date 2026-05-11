@@ -1,4 +1,5 @@
 import supabase from './supabase'
+import { btnMotion } from './buttonMotion'
 
 export const Nav = ({ activeTab, setActiveTab, session }) => {
   if (!session) return null
@@ -21,7 +22,7 @@ export const Nav = ({ activeTab, setActiveTab, session }) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`text-sm tracking-wider uppercase ${activeTab === tab.id ? 'text-primary' : 'text-muted hover:text-primary'}`}
+              className={`text-sm tracking-wider uppercase ${activeTab === tab.id ? 'text-primary' : 'text-muted hover:text-primary'} ${btnMotion}`}
             >
               {tab.label}
             </button>
@@ -29,7 +30,7 @@ export const Nav = ({ activeTab, setActiveTab, session }) => {
         </div>
         <button
           onClick={() => { supabase.auth.signOut(); setActiveTab('entry') }}
-          className="text-sm text-muted hover:text-primary tracking-wider uppercase"
+          className={`text-sm text-muted hover:text-primary tracking-wider uppercase ${btnMotion}`}
         >
           Sign Out
         </button>
@@ -41,7 +42,7 @@ export const Nav = ({ activeTab, setActiveTab, session }) => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex flex-col items-center gap-1 ${activeTab === tab.id ? 'text-primary' : 'text-muted'}`}
+            className={`flex flex-col items-center gap-1 ${activeTab === tab.id ? 'text-primary' : 'text-muted'} ${btnMotion}`}
           >
             <span className="text-lg">{tab.icon}</span>
             <span className="text-xs tracking-widest uppercase">{tab.label}</span>

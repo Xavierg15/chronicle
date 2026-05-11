@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { btnMotion } from './buttonMotion'
 
 export const Onboarding = ({ onComplete }) => {
   const [step, setStep] = useState(0)
@@ -52,7 +53,7 @@ export const Onboarding = ({ onComplete }) => {
           {showButton && (
             <button
               onClick={() => setStep(1)}
-              className="mt-12 text-xs tracking-widest uppercase text-accent border border-accent px-8 py-3 hover:bg-accent hover:text-background transition-colors"
+              className={`mt-12 text-xs tracking-widest uppercase text-accent border border-accent px-8 py-3 hover:bg-accent hover:text-background ${btnMotion}`}
             >
               Begin
             </button>
@@ -77,7 +78,7 @@ export const Onboarding = ({ onComplete }) => {
           </div>
           <button
             onClick={() => setStep(2)}
-            className="self-start text-xs tracking-widest uppercase text-accent border border-accent px-8 py-3 hover:bg-accent hover:text-background transition-colors"
+            className={`self-start text-xs tracking-widest uppercase text-accent border border-accent px-8 py-3 hover:bg-accent hover:text-background ${btnMotion}`}
           >
             Next
           </button>
@@ -90,7 +91,7 @@ export const Onboarding = ({ onComplete }) => {
           <p className="text-primary text-2xl font-bold tracking-wide leading-relaxed">your first entry is waiting.</p>
           <button
             onClick={onComplete}
-            className="mt-8 text-xs tracking-widest uppercase text-accent border border-accent px-8 py-3 hover:bg-accent hover:text-background transition-colors"
+            className={`mt-8 text-xs tracking-widest uppercase text-accent border border-accent px-8 py-3 hover:bg-accent hover:text-background ${btnMotion}`}
           >
             Start Writing
           </button>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { btnMotion } from './buttonMotion'
 import supabase from './supabase'
 
 export const Auth = () => {
@@ -68,7 +69,7 @@ export const Auth = () => {
   
         <button
           onClick={handleSubmit}
-          className="self-start text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background transition-colors mt-2"
+          className={`self-start text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background mt-2 ${btnMotion}`}
         >
           {isLogin ? 'Sign In' : 'Create Account'}
         </button>

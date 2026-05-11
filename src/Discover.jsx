@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { btnMotion } from './buttonMotion'
 import supabase from './supabase'
 
 export const Discover = ({ session }) => {
@@ -64,7 +65,7 @@ export const Discover = ({ session }) => {
         />
         <button
           onClick={handleSearch}
-          className="text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background transition-colors"
+          className={`text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background ${btnMotion}`}
         >
           Search
         </button>
@@ -77,14 +78,14 @@ export const Discover = ({ session }) => {
             {following.includes(user.id) ? (
               <button
                 onClick={() => handleUnfollow(user.id)}
-                className="text-xs tracking-widest uppercase text-muted border border-border px-4 py-1 hover:text-primary hover:border-primary transition-colors"
+                className={`text-xs tracking-widest uppercase text-muted border border-border px-4 py-1 hover:text-primary hover:border-primary ${btnMotion}`}
               >
                 Following
               </button>
             ) : (
               <button
                 onClick={() => handleFollow(user.id)}
-                className="text-xs tracking-widest uppercase text-accent border border-accent px-4 py-1 hover:bg-accent hover:text-background transition-colors"
+                className={`text-xs tracking-widest uppercase text-accent border border-accent px-4 py-1 hover:bg-accent hover:text-background ${btnMotion}`}
               >
                 Follow
               </button>

@@ -7,7 +7,7 @@ import { Feed } from './Feed'
 import { Profile } from './Profile'
 import { Discover } from './Discover'
 import { Nav } from './Nav'
-import { Onboarding } from './Onboarding'
+import { Landing } from './Landing'
 function App() {
   const [session, setSession] = useState(null)
   const [activeTab, setActiveTab] = useState('entry')
@@ -28,7 +28,7 @@ function App() {
       setSession(session)
     })
   }, [])
-  if(!onboardingComplete) return <Onboarding onComplete={handleOnboardingComplete} />
+  if(!onboardingComplete) return <Landing onComplete={handleOnboardingComplete} />
 
   return (
     // inside return:

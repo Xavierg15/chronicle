@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { btnMotion } from './buttonMotion'
 import supabase from './supabase'
 
 export const Profile = ({ session }) => {
@@ -158,7 +159,7 @@ export const Profile = ({ session }) => {
                 <button
                   type="button"
                   onClick={handleUpdate}
-                  className="text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background transition-colors"
+                  className={`text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background ${btnMotion}`}
                 >
                   Save
                 </button>
@@ -168,7 +169,7 @@ export const Profile = ({ session }) => {
                     setUsername(profile.username ?? '')
                     setEditing(false)
                   }}
-                  className="text-xs tracking-widest uppercase text-muted border border-border px-6 py-2 hover:text-primary hover:border-primary transition-colors"
+                  className={`text-xs tracking-widest uppercase text-muted border border-border px-6 py-2 hover:text-primary hover:border-primary ${btnMotion}`}
                 >
                   Cancel
                 </button>
@@ -183,7 +184,7 @@ export const Profile = ({ session }) => {
                   setUsername(profile.username ?? '')
                   setEditing(true)
                 }}
-                className="text-xs tracking-widest uppercase text-muted hover:text-primary"
+                className={`text-xs tracking-widest uppercase text-muted hover:text-primary ${btnMotion}`}
               >
                 Edit
               </button>
@@ -225,7 +226,7 @@ export const Profile = ({ session }) => {
         <div className="pt-6">
           <button
             onClick={() => supabase.auth.signOut()}
-            className="text-xs tracking-widest uppercase text-muted border border-border px-6 py-2 hover:text-primary hover:border-primary transition-colors"
+            className={`text-xs tracking-widest uppercase text-muted border border-border px-6 py-2 hover:text-primary hover:border-primary ${btnMotion}`}
           >
             Sign Out
           </button>
