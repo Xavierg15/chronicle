@@ -36,7 +36,7 @@ export const Nav = ({ activeTab, setActiveTab, session }) => {
       </nav>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex justify-around items-center py-4 pb-8 z-50" style={{paddingBottom:'max(12px, env(safe-area-inset-bottom))'}}>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex justify-around items-center py-4 pb-8 z-50 px-4" style={{paddingBottom:'max(12px, env(safe-area-inset-bottom))'}}>
         {tabs.map(tab => (
           <button
             key={tab.id}
