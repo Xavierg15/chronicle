@@ -25,8 +25,12 @@ export const Entry = ({ session }) => {
     checkEntry()
   }, [session.user.id])
 
+  const wordCount = content.trim() === '' ? 0 : content.trim().split(/\s+/).length
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (wordCount > 250) return
+
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
     const { data: existing } = await supabase
@@ -85,9 +89,17 @@ export const Entry = ({ session }) => {
           rows={12}
           className="bg-transparent text-primary text-lg leading-relaxed placeholder-muted focus:outline-none resize-none"
         />
+        <p className={`text-xs tracking-widest ${wordCount > 250 ? 'text-red-400' : 'text-muted'}`}>
+          {wordCount} / 250
+        </p>
         <button
           type="submit"
-          className="self-start text-xs tracking-widest uppercase text-accent border border-accent px-6 py-2 hover:bg-accent hover:text-background transition-colors"
+          disabled={wordCount > 250}
+          className={`self-start text-xs tracking-widest uppercase border px-6 py-2 transition-colors ${
+            wordCount > 250
+              ? 'text-muted border-border cursor-not-allowed'
+              : 'text-accent border-accent hover:bg-accent hover:text-background'
+          }`}
         >
           Publish Entry
         </button>
