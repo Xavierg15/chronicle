@@ -7,9 +7,18 @@ import { Feed } from './Feed'
 import { Profile } from './Profile'
 import { Discover } from './Discover'
 import { Nav } from './Nav'
+import { Onboarding } from './Onboarding'
 function App() {
   const [session, setSession] = useState(null)
   const [activeTab, setActiveTab] = useState('entry')
+  const [onboardingComplete, setOnboardingComplete] = useState(
+    localStorage.getItem('onboardingComplete') === 'true'
+  )
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('onboardingComplete', 'true')
+    setOnboardingComplete(true)
+  }
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
@@ -19,6 +28,7 @@ function App() {
       setSession(session)
     })
   }, [])
+  if(!onboardingComplete) return <Onboarding onComplete={handleOnboardingComplete} />
 
   return (
     // inside return:
