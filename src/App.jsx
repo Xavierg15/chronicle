@@ -27,7 +27,7 @@ function App() {
   
   {session ? (
     <>
-    <main className ="max-w-2xl mx-auto px-6 py-10">
+    <main className ="max-w-2xl mx-auto px-6 py-10 pb-24 md:pb-10">
       {activeTab === 'entry' && <Entry session={session} />}
       {activeTab === 'journal' && <Journal session={session} />}
       {activeTab === 'feed' && <Feed session={session} />}
