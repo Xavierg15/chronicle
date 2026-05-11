@@ -120,6 +120,14 @@ setStreak(calculateStreak(entries || []))
           <p className="text-muted text-xs tracking-widest uppercase mb-2">Streak</p>
           <p className="text-primary text-2xl font-bold">{streak} <span className="text-muted text-sm">days</span></p>
         </div>
+        <div className="pt-6">
+          <button
+            onClick={() => supabase.auth.signOut()}
+            className="text-xs tracking-widest uppercase text-muted border border-border px-6 py-2 hover:text-primary hover:border-primary transition-colors"
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
     </div>
   )
