@@ -10,28 +10,37 @@ export const Onboarding = ({ onComplete }) => {
 
   useEffect(() => {
     if (step !== 0) return
-   
+
     let i = 0
+    let subIntervalId
+    const timeoutIds = []
+
     const mainInterval = setInterval(() => {
       setDisplayed(fullText.slice(0, i + 1))
       i++
       if (i === fullText.length) {
         clearInterval(mainInterval)
-        setTimeout(() => {
-          let j = 0
-          const subInterval = setInterval(() => {
-            setSubDisplayed(subText.slice(0, j + 1))
-            j++
-            if (j === subText.length) {
-              clearInterval(subInterval)
-              setTimeout(() => setShowButton(true), 400)
-            }
-          }, 60)
-        }, 500)
+        timeoutIds.push(
+          setTimeout(() => {
+            let j = 0
+            subIntervalId = setInterval(() => {
+              setSubDisplayed(subText.slice(0, j + 1))
+              j++
+              if (j === subText.length) {
+                clearInterval(subIntervalId)
+                timeoutIds.push(setTimeout(() => setShowButton(true), 400))
+              }
+            }, 60)
+          }, 500)
+        )
       }
     }, 120)
 
-    return () => clearInterval(mainInterval)
+    return () => {
+      clearInterval(mainInterval)
+      clearInterval(subIntervalId)
+      timeoutIds.forEach(clearTimeout)
+    }
   }, [step])
 
   const screens = [

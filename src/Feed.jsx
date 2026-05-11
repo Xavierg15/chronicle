@@ -27,7 +27,7 @@ export const Feed = ({ session }) => {
           .select('following_id')
           .eq('follower_id', session.user.id)
 
-        const followingIds = followData.map(f => f.following_id)
+        const followingIds = (followData || []).map((f) => f.following_id)
 
         if (followingIds.length === 0) {
           setIsLoading(false)

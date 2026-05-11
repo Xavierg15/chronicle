@@ -14,7 +14,7 @@ export const Discover = ({ session }) => {
         .eq('follower_id', session.user.id)
 
       if (error) alert(error.message)
-      else setFollowing(data.map(f => f.following_id))
+      else setFollowing((data || []).map((f) => f.following_id))
     }
 
     fetchFollowing()
@@ -28,7 +28,7 @@ export const Discover = ({ session }) => {
       .neq('id', session.user.id)
 
     if (error) alert(error.message)
-    else setResults(data)
+    else setResults(data || [])
   }
 
   const handleFollow = async (userId) => {
@@ -37,14 +37,17 @@ export const Discover = ({ session }) => {
       following_id: userId
     })
     if (error) alert(error.message)
-    else setFollowing([...following, userId])
+    else setFollowing((prev) => [...prev, userId])
   }
 
   const handleUnfollow = async (userId) => {
-    await supabase.from('follows').delete()
+    const { error } = await supabase
+      .from('follows')
+      .delete()
       .eq('follower_id', session.user.id)
       .eq('following_id', userId)
-    setFollowing(following.filter(id => id !== userId))
+    if (error) alert(error.message)
+    else setFollowing((prev) => prev.filter((id) => id !== userId))
   }
 
   return (

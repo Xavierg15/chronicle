@@ -12,13 +12,21 @@ export const Auth = () => {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) alert(error.message)
     } else {
+      const trimmed = username.trim()
+      if (!trimmed) {
+        alert('Please choose a username.')
+        return
+      }
       const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) alert(error.message)
-      else {
-        await supabase.from('profiles').insert({
+      else if (!data.user) {
+        alert('Check your email to confirm your account, then sign in.')
+      } else {
+        const { error: profileError } = await supabase.from('profiles').insert({
           id: data.user.id,
-          username
+          username: trimmed,
         })
+        if (profileError) alert(profileError.message)
       }
     }
   }
